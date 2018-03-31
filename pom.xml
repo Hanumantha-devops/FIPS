@@ -1,111 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<!--
+Licensed to the Apache Software Foundation (ASF) under one or more
+contributor license agreements.  See the NOTICE file distributed with
+this work for additional information regarding copyright ownership.
+The ASF licenses this file to You under the Apache License, Version 2.0
+(the "License"); you may not use this file except in compliance with
+the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+
+  $Id:$
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
+    <prerequisites>
+        <maven>2.0.4</maven>
+    </prerequisites>
 
+    <!-- POM Identification -->
+
+    <artifactId>project-4</artifactId>
     <parent>
-        <groupId>org.glassfish.jersey.examples</groupId>
-        <artifactId>webapp-example-parent</artifactId>
-        <relativePath>../webapp-example-parent/pom.xml</relativePath>
-        <version>2.26</version>
+        <groupId>devops</groupId>
+        <artifactId>portal-applications</artifactId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
-
-    <!-- Use in the case when Jetty is not needed
-    <parent>
-        <groupId>org.glassfish.jersey.examples</groupId>
-        <artifactId>project</artifactId>
-        <version>2.26</version>
-    </parent>
-    -->
-
-    <artifactId>jersey-example-java8-webapp</artifactId>
     <packaging>war</packaging>
-    <name>jersey-example-java8-webapp</name>
+    <name>project-4 Portal Application</name>
 
-    <description>Jersey (Java8) WebApp Example Archetype.</description>
+    <!-- Dependencies -->
 
     <dependencies>
+
+        <!-- Build Dependencies -->
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-grizzly2-http</artifactId>
+            <groupId>org.apache.portals.bridges</groupId>
+            <artifactId>portals-bridges-velocity</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
+            <groupId>velocity</groupId>
+            <artifactId>velocity</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.glassfish.jersey.inject</groupId>
-            <artifactId>jersey-hk2</artifactId>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
         </dependency>
+
+        <!-- Runtime Dependencies -->
+        <dependency>
+            <groupId>org.apache.portals.jetspeed-2</groupId>
+            <artifactId>jetspeed-webapp-logging</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jstl</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>standard</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>taglibs</groupId>
+            <artifactId>request</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>velocity-tools</groupId>
+            <artifactId>velocity-tools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-digester</groupId>
+            <artifactId>commons-digester</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>commons-collections</groupId>
+            <artifactId>commons-collections</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
+    <!-- Build Configuration -->
+
     <build>
+
+        <!-- J2 Standard Directories -->
+        <sourceDirectory>src/java</sourceDirectory>
+        <testSourceDirectory>src/test</testSourceDirectory>
+
+        <!-- Resources -->
+        <resources>
+            <resource>
+                <directory>src/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+
+        <!-- Test Resources -->
+        <testResources>
+            <testResource>
+                <directory>src/java</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+            <testResource>
+                <directory>src/test</directory>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
+
+        <!-- Plugins -->
         <plugins>
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>org.glassfish.jersey.examples.App</mainClass>
-                </configuration>
-            </plugin>
-
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <inherited>true</inherited>
-                <configuration>
-                    <source>1.8.0_144</source>
-                    <target>1.8.0_144</target>
-                    <showWarnings>false</showWarnings>
-                    <fork>false</fork>
-                </configuration>
-            </plugin>
-
-            <!-- Run the application using "mvn jetty:run" -->
-            <plugin>
-                <groupId>org.eclipse.jetty</groupId>
-                <artifactId>jetty-maven-plugin</artifactId>
-                <!-- TODO: Remove the version when JERSEY-2743 is resolved. -->
-                <version>9.2.6.v20141205</version>
-                <configuration>
-                    <scanIntervalSeconds>5</scanIntervalSeconds>
-                    <stopPort>9999</stopPort>
-                    <stopKey>STOP</stopKey>
-                    <webApp>
-                        <contextPath>/</contextPath>
-                        <webInfIncludeJarPattern>.*/.*jersey-[^/]\.jar$</webInfIncludeJarPattern>
-                    </webApp>
-                    <systemProperties>
-                        <systemProperty>
-                            <name>jetty.port</name>
-                            <value>${jersey.config.test.container.port}</value>
-                        </systemProperty>
-                    </systemProperties>
-                    <war>/Users/pavel/jersey/jersey-2.26/jersey/archetypes/jersey-example-java8-webapp/target/jersey-example-java8-webapp-2.26.war</war>
-                </configuration>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>hot-deploy-component</id>
+                        <phase>install</phase>
+                        <configuration>
+                            <tasks>
+                                <ant target="hot-deploy-war" antfile="build.xml" dir="${basedir}/../../app-servers" inheritall="off">
+                                    <property name="org.apache.jetspeed.deploy.enable"
+                                              value="${org.apache.jetspeed.env.hotdeploy}"/>
+                                    <property name="org.apache.jetspeed.deploy.target"
+                                              value="${org.apache.jetspeed.env.deploy.target}"/>
+                                    <property name="org.apache.jetspeed.server.home"
+                                              value="${org.apache.jetspeed.server.home}"/>
+                                    <property name="org.apache.jetspeed.deploy.groupid"
+                                              value="${pom.groupId}"/>
+                                    <property name="org.apache.jetspeed.deploy.artifactid"
+                                              value="${pom.artifactId}"/>
+                                    <property name="org.apache.jetspeed.deploy.version"
+                                              value="${pom.version}"/>
+                                </ant>
+                            </tasks>
+                        </configuration>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
+
     </build>
 
-    <profiles>
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>xml-maven-plugin</artifactId>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
-    <properties>
-        <java.version>1.8</java.version>
-        <jersey.config.test.container.port>8080</jersey.config.test.container.port>
-    </properties>
 </project>
